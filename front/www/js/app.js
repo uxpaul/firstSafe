@@ -74,8 +74,8 @@
   'ngCordova',
   'app.services',
   'app.home',
-  'app.list',
-  'app.lists',
+  // 'app.list',
+  // 'app.lists',
   'app.login',
   'app.menu',
   'app.marker'

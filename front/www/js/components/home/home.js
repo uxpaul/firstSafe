@@ -8,7 +8,7 @@
 
           let options = {
             maximumAge: 3000,
-            timeout: 5000,
+            timeout: 15000,
             enableHighAccuracy: true
           };
           let icon = {
@@ -102,7 +102,7 @@
 
 
           // Get current position
-          navigator.geolocation.watchPosition(onSuccess, onError, options);
+          navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
         },
 
