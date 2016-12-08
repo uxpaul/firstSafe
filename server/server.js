@@ -6,9 +6,12 @@ let bodyParser = require('body-parser')
 let methodOverride = require('method-override')
 let morgan = require('morgan')
 let mongoose = require('mongoose')
+const ENV = require('./config/env')
+
 
 let routes = require('./app/routes')
-const port = process.env.PORT || 3000 // (process.env.PORT ? process.env.PORT : 8000) => process.env.PORT || 8000
+const port = process.env.PORT || 8100 // (process.env.PORT ? process.env.PORT : 8000) => process.env.PORT || 8000
+
 
 app.use(express.static(__dirname + '/public'))
 // logs
@@ -25,10 +28,12 @@ app.use(bodyParser.json({
 
 app.use(methodOverride('X-HTTP-Method-Override'))
 
-app.use('/api',routes(app))
-
 // Create server
 let server = http.Server(app)
+let io = require('socket.io')(server)
+
+app.use('/api',routes(io))
+
 
 server.listen(port)
 console.log(`server listening on port ${port}`)
@@ -39,7 +44,7 @@ process.on('SIGINT', function() {
     process.exit()
 });
 
-mongoose.connect('mongodb://uxpaul:/^mlab0/gmi@ds159747.mlab.com:59747/firstsafe')
+mongoose.connect(ENV.db)
 
 // Création d'un middleware pour logger les erreurs
 app.use((error, request, response, next) => {

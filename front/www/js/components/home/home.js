@@ -2,7 +2,40 @@
 
   app.component('home', {
     templateUrl: 'js/components/home/home.html',
-    controller: ["$state", "$compile", "$ionicModal", "$scope", "$http", function($state, $compile, $ionicModal, $scope, $http) {
+    controller: ["$state", "$compile", "$scope", "$http","aidProvidersService","$stateParams", function($state, $compile, $scope, $http, aidProvidersService, $stateParams) {
+
+      let socket = io('/iller');
+      this.show;
+      this.reply;
+      // Test
+      socket.on('hi', (message) => console.log(message))
+      // Uniquement le(s) medecin(s) reçoit le(s) message(s) de secours
+      socket.on('emergency', (message) => this.emergency(message))
+      // A la confirmation du medecin ...
+      socket.on('accept', (user)=> this.acceptHelp(user))
+
+      socket.on('stats', (data) => {
+          console.log('Connected clients:', data.numClients);
+      });
+
+
+            // aidProvidersService.find($stateParams.name).then((res) => {
+            //     this.user = res.data
+            //     console.log(this.user)
+            //     socket.emit('user', this.user[0].profession)
+            //
+            //     if (this.user[0].profession === "iller") {
+            //         //  socket = io('/iller');
+            //         this.show = true;
+            //
+            //     }
+            //     //  else {
+            //     //     socket = io('/Doctor');
+            //     // }
+            // })
+            //
+
+
       angular.extend(this, {
         $onInit() {
 
@@ -153,7 +186,39 @@
             this.calculateDistances(destination)
           });
 
-        }
+        },
+        // J'envoie le secours
+                help() {
+                    socket.emit('emergency', this.user);
+                },
+
+                emergency(message) {
+                    $scope.$apply(() => {
+                        this.content = message.user[0]
+                        this.id = message.id
+                        console.log(message.id)
+                        this.reply = true;
+                    });
+                },
+
+                // Le medecin envoie son acceptation
+                accept(){
+
+                  socket.emit('accept',{user : this.user, id : this.id});
+                },
+
+                refuse(){
+
+
+                },
+
+                // ... Je reçoit ses coordonnées
+                acceptHelp(user){
+                  debugger
+                  $scope.$apply(() => {
+                      this.doctor = user[0].name
+                  });
+                }
 
 
       })

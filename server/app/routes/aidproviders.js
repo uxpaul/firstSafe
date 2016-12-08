@@ -2,9 +2,9 @@
 
 let AidProvidersController = require('../controllers/AidProvidersController')
 
-module.exports = (app) => {
+module.exports = (app,io) => {
 
-    let ctrl = new AidProvidersController()
+    let ctrl = new AidProvidersController(io)
 
     app.get('/providers', (req, res, next) => {
         return ctrl.find(req, res, next)
