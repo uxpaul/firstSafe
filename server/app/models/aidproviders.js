@@ -5,7 +5,8 @@ let mongoose = require('mongoose')
 module.exports = mongoose.model('Providers', new mongoose.Schema({
 
   nom: {
-      type: String
+      type: String,
+      unique: true
   },
   prenom: {
       type: String
@@ -13,19 +14,19 @@ module.exports = mongoose.model('Providers', new mongoose.Schema({
   password : {
     type: String
   },
-  pseudo: {
-      type: Number,
-      unique: true
+  situation: {
+      type: String
   },
   tel: {
+      type: Number
+  },
+  lat: {
       type: Number,
       unique: true
   },
-  lat: {
-      type: Number
-  },
   lng: {
-      type: Number
+      type: Number,
+      unique: true
   },
   messages: {
     type : []

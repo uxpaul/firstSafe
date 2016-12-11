@@ -1,18 +1,21 @@
 ((app) => {
     'use strict'
-    app.service('aidProvidersService', function($http) {
+    app.service('aidProvidersService', function($http, apiConfig) {
     return {
         get() {
-            return $http.get('/api/providers')
+            return $http.get(apiConfig.baseUrl + '/api/providers')
+        },
+        get(id){
+          return $ctrl.get(apiConfig.baseUrl +'api/providers/'+ id)
         },
         add(newArticle) {
-            return $http.post('/api/providers', newArticle)
+            return $http.post(apiConfig.baseUrl + '/api/providers', newArticle)
         },
         edit(selectedArticle) {
-            return $http.put('/api/providers/' + selectedArticle._id, selectedArticle)
+            return $http.put(apiConfig.baseUrl + '/api/providers/' + selectedArticle._id, selectedArticle)
         },
         delete(selectedArticle) {
-            return $http.delete('/api/providers/' + selectedArticle._id)
+            return $http.delete(apiConfig.baseUrl + '/api/providers/' + selectedArticle._id)
         }
     }
     })

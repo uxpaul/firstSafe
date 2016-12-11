@@ -1,0 +1,67 @@
+<ion-modal-view ng-if="!$ctrl.closeSignup">
+  <ion-header-bar>
+    <h1 class="title">FirstSafe</h1>
+    <div class="buttons">
+      <button class="button button-icon ion-ios-close-empty" ng-click="closeSignup()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form>
+        <div class="row">
+          <div class="col">
+            <input type="text" ng-model="loginData.prenom" placeholder="Username" class="signupInput">
+
+          </div>
+          <div class="col">
+            <input type="text" ng-model="loginData.nom" placeholder="Surname" class="signupInput">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="email" ng-model="loginData.email" placeholder="Email" class="signupInput">
+
+          </div>
+          <div class="col">
+            <input type="number" ng-model="loginData.age" placeholder="Age" class="signupInput">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="text" ng-model="loginData.gender" placeholder="Gender" class="signupInput">
+
+          </div>
+          <div class="col">
+            <input type="password" ng-model="loginData.password" placeholder="Password" class="signupInput">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="password" ng-model="loginData.password" placeholder="Re-type Password" class="signupInput">
+
+          </div>
+          <div class="col">
+            <label class="item item-input item-select">
+          <div class="input-label">Situation  </div>
+              <select ng-model="loginData.situation" required>
+                <option selected></option>
+                <option>aidProvider</option>
+                <option>aidReceiver</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+
+      <div class="padding">
+        <button class="button button-block button-positive" type="submit"  ng-click="$ctrl.doSignup(loginData) || closeSignup()">Sign up</button>
+      </div>
+    </form>
+
+    <div class="footerSignup row">
+
+      </div>
+  </ion-content>
+</ion-modal-view>

@@ -1,33 +1,28 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-          <label class="item item-input item-select">
-        <div class="input-label">  Situation  </div>
-            <select>
-              <option selected></option>
-              <option>Normal</option>
-              <option>Doctor</option>
-            </select>
-          </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
+<!-- hide-nav-bar="true" -->
+<ion-view view-title="FirstSafe" class="splashScreen">
+<ion-content>
+    <div class=" headerLogin">
+    <div class="row">
+      <div class="loginContainer">
+        <h1>Welcome</h1>
+        <input type="text" ng-model="$ctrl.loginData.username" placeholder="Username" class="loginInput">
+        <input type="password" ng-model="$ctrl.loginData.password" placeholder="Password" class="loginInput">
       </div>
-    </form>
+    </div>
+    <div class="loginSignup">
+      <!-- Centrage des bouttons  -->
+      <div class="row">
+        <div class="col">
+          <button class="button button-outline button-positive" type="submit" ng-click="$ctrl.doLogin()">Sign in</button>
+        </div>
+        <div class="col">
+          <button class="button button-outline button-balanced" type="submit" ng-click="$ctrl.signup()">Create account</button>
+        </div>
+      </div>
+    </div>
+        </div>
+        <div class="row footerLogin">
+
+        </div>
   </ion-content>
-</ion-modal-view>
+</ion-view>

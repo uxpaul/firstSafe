@@ -2,10 +2,12 @@
 
   app.config(['$stateProvider', ($stateProvider)=>{
     $stateProvider.state('app.login', {
-      url:'/home/{userID}',
+      url:'/login',
       views: {
         'menuContent': {
-          template:'<login></login>'
+         template:'<login></login>',
+        //templateUrl: 'js/components/login/login.html'
+
         }
       }
     })

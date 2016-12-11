@@ -12,18 +12,18 @@ class AidProvidersController extends Controller {
         this.io.on('connection', (socket) => {
             this._onConnection(socket)
         });
-        
+
         //my-namespace
         var nsp = io.of('/iller');
         nsp.on('connection', (socket) => {
             console.log(socket.id)
-            this._onIller(socket)
+            this._onSpace(socket)
             numClients++;
             nsp.emit('stats', {
                 numClients: numClients
             });
 
-            console.log('Connected clients:', numClients);
+        //    console.log('Connected clients:', numClients);
 
             socket.on('disconnect', function() {
                 numClients--;
@@ -31,39 +31,66 @@ class AidProvidersController extends Controller {
                     numClients: numClients
                 });
 
-                console.log('Connected clients:', numClients);
+            //    console.log('Connected clients:', numClients);
             });
 
         });
-        // nsp.to('iller').emit('hi', 'everyone!');
 
     }
 
-
-    _onIller(socket) {
+    _onSpace(socket) {
+        console.log('User connect _onSpace');
 
         socket.on('user', (profession) => {
-            profession === 'iller' ? socket.join('iller') : socket.join('doctor')
+            profession === 'aidReceiver' ? socket.join('aidReceiver') : socket.join('aidProvider')
         });
 
-        socket.to('iller').emit('hi', 'iller');
-        socket.to('doctor').emit('hi', 'doctor');
+        //
+        socket.on('location', (location) => {
+            socket.emit('location', location)
+            this.location = location
+                //  console.log(location)
+        })
 
+
+        // Reception des infos de l'AR et redirection vers l'AP
         socket.on('emergency', (user) => {
-            socket.to('doctor').emit('emergency', {user :user, id: socket.id})
+          //  console.log(this.location)
+            if (this.location) {
+                user.lat = this.location.lat
+                user.lng = this.location.lng
+            }
+            socket.to('aidProvider').emit('emergency', {
+                user: user,
+                id: socket.id
+            })
+            console.log(`Id de l'aidReceiver : ${socket.id}`)
         });
 
         // Traite l'acceptation du medecin et envoie au malade ses infos
         socket.on('accept', (user) => {
-            socket.to(user.id).emit('accept', user.user)
-            console.log(user.id)
+          console.log(this.location)
+          console.log("L'aidProvider qui a accepté est" + user)
+          if (this.location) {
+              user.user.lat = this.location.lat
+              user.user.lng = this.location.lng
+          }
+            socket.to(user.id).emit('accept', {
+            user : user.user,
+            id : socket.id
+            })
+            console.log(`L'id de aidProvider est : ${socket.id}`)
+        })
 
+        // Disconnect the selected socket
+        socket.on('disconnect me', () => {
+            console.log("Disconnected")
+            socket.disconnect()
         })
 
     }
 
     _onConnection(socket) {
-        console.log('a user connected');
 
         socket.on('authenticate', function(data, callback) {
             socket.auth = false;
@@ -105,26 +132,6 @@ class AidProvidersController extends Controller {
                 }
             }, 15000);
         })
-
-        socket.on('pseudo', (user) => {
-            user = ent.encode(user);
-            console.log(user)
-            socket.user = user
-            socket.broadcast.emit('pseudo', ` Connection de : ${socket.user}`)
-
-        })
-
-
-        socket.on('chat message', (message) => {
-            message = ent.encode(message);
-            console.log(message)
-            socket.broadcast.emit('chat message', {
-                pseudo: socket.user,
-                content: message
-            });
-        });
-
-
     }
 
 

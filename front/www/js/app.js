@@ -1,6 +1,9 @@
 ((app) => {
-
-  app.run(function($ionicPlatform) {
+  app.constant('apiConfig', {
+  //  baseUrl:'http://localhost:8000'
+   baseUrl: 'https://firstsafe.herokuapp.com'
+  })
+  .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -17,14 +20,17 @@
     })
 
 })(angular.module('app', [
-  'btford.socket-io',
   'ionic',
+  'btford.socket-io',
   'ngCordova',
   'app.services',
   'app.home',
   'app.login',
   'app.menu',
-  'app.marker'
+  'app.marker',
+  'app.signup',
+  'app.donation',
+  'app.settings'
 
 
 ]))

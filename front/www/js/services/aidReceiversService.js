@@ -1,18 +1,18 @@
 ((app) => {
     'use strict'
-    app.service('aidReceiversService', function($http) {
+    app.service('aidReceiversService', function($http, apiConfig) {
     return {
         get() {
-            return $http.get('/api/receivers')
+            return $http.get(apiConfig.baseUrl + '/api/receivers')
         },
         add(newUser) {
-            return $http.post('/api/receivers', newUser)
+            return $http.post(apiConfig.baseUrl + '/api/receivers', newUser)
         },
         edit(selectedUser) {
-            return $http.put('/api/receivers/' + selectedUser._id, selectedUser)
+            return $http.put(apiConfig.baseUrl + '/api/receivers/' + selectedUser._id, selectedUser)
         },
         delete(selectedUser) {
-            return $http.delete('/api/receivers/' + selectedUser._id)
+            return $http.delete(apiConfig.baseUrl + '/api/receivers/' + selectedUser._id)
         }
     }
     })
